@@ -1,0 +1,48 @@
+---
+- hosts: astra
+  gather_facts: false
+  tasks:
+  - name: Download JDK 24 debian package
+    get_url:
+      url: https://download.oracle.com/java/24/latest/jdk-24_linux-x64_bin.deb
+      dest: /home/user/jdk-24_linux-x64_bin.deb
+
+  - name: Install JDK 24
+    shell: dpkg -i /home/user/jdk-24_linux-x64_bin.deb
+
+  - name: Download Infinispan Server 15.2.0.Final
+    get_url:
+      url: https://github.com/infinispan/infinispan/releases/download/15.2.0.Final/infinispan-server-15.2.0.Final.zip
+      dest: /home/user/infinispan-server-15.2.0.Final.zip
+        
+  - name: Unpackage infinispan-server-15.2.0.Final.zip
+    unarchive:
+      src: /home/user/infinispan-server-15.2.0.Final.zip
+      dest: /home/user
+      remote_src: yes
+    
+  - name: Change Infinispan configuration
+    copy:
+      src: infinispan.xml
+      dest: /home/user/infinispan-server-15.2.0.Final/server/conf/infinispan.xml
+      mode: '0644'
+      
+  - name: Create Infinispan admin user
+    shell: /home/user/infinispan-server-15.2.0.Final/bin/cli.sh user create admin -p secret -g admin
+    
+  - name: Run Infinispan Server
+    shell: nohup /home/user/infinispan-server-15.2.0.Final/bin/server.sh &
+    
+  - name: Add cron job to start Infinispan Server on reboot
+    cron:
+      name: "Start Infinispan Server at boot"
+      special_time: reboot
+      job: "sudo nohup /home/user/infinispan-server-15.2.0.Final/bin/server.sh &"
+      
+- hosts: alt
+  gather_facts: false
+  tasks:
+  - name: Add entry to hosts file
+    lineinfile:
+      path: /etc/hosts
+      line: "192.168.1.2 infinispandatabase.ru"

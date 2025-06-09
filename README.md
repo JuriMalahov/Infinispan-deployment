@@ -31,4 +31,4 @@
 ```
 ansible-playbook infinispan_playbook.yaml
 ```
-Плэйбук развернет приложение Infinispan и выполнит базовую настройку. Приложение будет доступно с хоста Alt по адресу: <http://infinispandatabase.ru>. Для входа в веб-интерфейс Infinispan используйте логин `admin` и пароль `secret`.
+Плэйбук развернет приложение Infinispan и выполнит базовую настройку. Приложение будет доступно с хоста Alt по адресу: <http://infinispandatabase.ru>. Для входа в веб-интерфейс Infinispan необходимо использовать логин `admin` и пароль `secret`.

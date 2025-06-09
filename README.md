@@ -16,12 +16,13 @@
 
 далее для Astra Linux,
 
-  > ./configure_astra.sh
+> ./configure_astra.sh
 
 потом для Alt
 
-  > ./configure_alt.sh
+> ./configure_alt.sh
 
 Скрипты выполнят настройку сети, ssh и установят необходимые утилиты.
+
 ## Выполнение Ansible Playbook
 Теперь пользователь должен клонировать данный репозиторий на машину Alt и выполнить плэйбук infinispan_playbook.yaml. Плэйбук развернет приложение Infinispan и выполнит базовую настройку. Приложение будет доступно с хоста Alt по адресу: <http://infinispandatabase.ru>.
